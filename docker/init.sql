@@ -1,5 +1,6 @@
 -- Drop tables if they exist
 DROP TABLE IF EXISTS movie;
+DROP TABLE IF EXISTS director;
 DROP TABLE IF EXISTS alltypes;
 
 -- Create movie table
@@ -7,6 +8,11 @@ CREATE TABLE movie (
     id BIGSERIAL PRIMARY KEY,
     title VARCHAR(80) NOT NULL,
     directed_by VARCHAR(80)
+);
+
+CREATE TABLE director (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(80) UNIQUE NOT NULL
 );
 
 -- Create AllTypes table
@@ -98,6 +104,46 @@ BEGIN
 END;
 $$;
 
+DROP PROCEDURE IF EXISTS insert_alltypes_in_and_out;
+
+CREATE PROCEDURE insert_alltypes_in_and_out(
+    OUT p_str_out VARCHAR,
+    IN p_str VARCHAR,
+    IN p_intval INTEGER,
+    IN p_longval BIGINT,
+    IN p_doubleval DOUBLE PRECISION,
+    IN p_floatval REAL,
+    IN p_boolval BOOLEAN,
+    IN p_shortval SMALLINT,
+    IN p_byteval SMALLINT,
+    IN p_dateval DATE,
+    IN p_timeval TIME,
+    IN p_timestampval TIMESTAMP,
+    IN p_bigdecimalval DECIMAL(15, 2),
+    IN p_bytesval BYTEA,
+    IN p_urlval VARCHAR,
+    IN p_nullval VARCHAR,
+    OUT p_shortval_out SMALLINT
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    INSERT INTO alltypes (
+        str, intval, longval, doubleval, floatval, boolval,
+        shortval, byteval, dateval, timeval, timestampval, bigdecimalval,
+        bytesval, urlval, nullval
+    )
+    VALUES (
+        p_str, p_intval, p_longval, p_doubleval, p_floatval, p_boolval,
+        p_shortval, p_byteval, p_dateval, p_timeval, p_timestampval, p_bigdecimalval,
+        p_bytesval, p_urlval, p_nullval
+    );
+
+    -- Return the input string as output
+    p_str_out := p_str;
+    p_shortval_out := p_shortval;
+END;
+$$;
 
 DROP PROCEDURE IF EXISTS insert_movie_in;
 

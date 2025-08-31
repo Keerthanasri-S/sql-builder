@@ -1,5 +1,10 @@
 package com.techatpark;
 
+import com.techatpark.sql.ParamMapper;
+import com.techatpark.sql.RowMapper;
+import com.techatpark.sql.Sql;
+import com.techatpark.sql.StatementMapper;
+
 import javax.sql.DataSource;
 import java.math.BigDecimal;
 import java.net.URL;
@@ -23,81 +28,6 @@ import java.util.List;
  */
 public sealed class SqlBuilder implements Sql<Integer> {
 
-    /**
-     * Mapper for String.
-     */
-    private static final RowMapper<String> STRING_MAPPER
-            = rs -> rs.getString(1);
-    /**
-     * Mapper for Integer.
-     */
-    private static final RowMapper<Integer> INTEGER_MAPPER
-            = rs -> rs.getInt(1);
-    /**
-     * Mapper for BYTE.
-     */
-    private static final RowMapper<Byte> BYTE_MAPPER
-            = rs -> rs.getByte(1);
-    /**
-     * Mapper for bytes.
-     */
-    private static final RowMapper<byte[]> BYTES_MAPPER
-            = rs -> rs.getBytes(1);
-    /**
-     * Mapper for Short.
-     */
-    private static final RowMapper<Short> SHORT_MAPPER
-            = rs -> rs.getShort(1);
-    /**
-     * Mapper for URL.
-     */
-    private static final RowMapper<URL> URL_MAPPER
-            = rs -> rs.getURL(1);
-    /**
-     * Mapper for Double.
-     */
-    private static final RowMapper<Double> DOUBLE_MAPPER
-            = rs -> rs.getDouble(1);
-    /**
-     * Mapper for Float.
-     */
-    private static final RowMapper<Float> FLOAT_MAPPER
-            = rs -> rs.getFloat(1);
-    /**
-     * Mapper for BigDecimal.
-     */
-    private static final RowMapper<BigDecimal> BIG_DECIMAL_MAPPER
-            = rs -> rs.getBigDecimal(1);
-    /**
-     * Mapper for Boolean.
-     */
-    private static final RowMapper<Boolean> BOOLEAN_MAPPER
-            = rs -> rs.getBoolean(1);
-    /**
-     * Mapper for Long.
-     */
-    private static final RowMapper<Long> LONG_MAPPER
-            = rs -> rs.getLong(1);
-    /**
-     * Mapper for Date.
-     */
-    private static final RowMapper<Date> DATE_MAPPER
-            = rs -> rs.getDate(1);
-    /**
-     * Mapper for Time.
-     */
-    private static final RowMapper<Time> TIME_MAPPER
-            = rs -> rs.getTime(1);
-    /**
-     * Mapper for TimeStamp.
-     */
-    private static final RowMapper<Timestamp> TIMESTAMP_MAPPER
-            = rs -> rs.getTimestamp(1);
-    /**
-     * Mapper for Object.
-     */
-    private static final RowMapper<Object> OBJECT_MAPPER
-            = rs -> rs.getObject(1);
     /**
      * Builds Callable Sql Builder from Sql.
      *
@@ -178,7 +108,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
      * @return a new Query instance for execution
      */
     public Sql<Byte> queryForByte() {
-        return queryForOne(BYTE_MAPPER);
+        return queryForOne(RowMapper.BYTE_MAPPER);
     }
 
 
@@ -189,7 +119,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
      * @return a new Query instance for execution
      */
     public Sql<List<Byte>> queryForListOfByte() {
-        return queryForList(BYTE_MAPPER);
+        return queryForList(RowMapper.BYTE_MAPPER);
     }
 
     /**
@@ -199,7 +129,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
      * @return a new Query instance for execution
      */
     public Sql<byte[]> queryForBytes() {
-        return queryForOne(BYTES_MAPPER);
+        return queryForOne(RowMapper.BYTES_MAPPER);
     }
 
     /**
@@ -209,7 +139,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
      * @return a new Query instance for execution
      */
     public Sql<List<byte[]>> queryForListOfBytes() {
-        return queryForList(BYTES_MAPPER);
+        return queryForList(RowMapper.BYTES_MAPPER);
     }
 
     /**
@@ -219,7 +149,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
      * @return a new Query instance for execution
      */
     public Sql<Integer> queryForInt() {
-        return queryForOne(INTEGER_MAPPER);
+        return queryForOne(RowMapper.INTEGER_MAPPER);
     }
 
 
@@ -230,7 +160,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
      * @return a new Query instance for execution
      */
     public Sql<List<Integer>> queryForListOfInt() {
-        return queryForList(INTEGER_MAPPER);
+        return queryForList(RowMapper.INTEGER_MAPPER);
     }
 
     /**
@@ -240,7 +170,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
      * @return a new Query instance for execution
      */
     public Sql<Short> queryForShort() {
-        return queryForOne(SHORT_MAPPER);
+        return queryForOne(RowMapper.SHORT_MAPPER);
     }
 
     /**
@@ -250,7 +180,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
      * @return a new Query instance for execution
      */
     public Sql<List<Short>> queryForListOfShort() {
-        return queryForList(SHORT_MAPPER);
+        return queryForList(RowMapper.SHORT_MAPPER);
     }
 
     /**
@@ -260,7 +190,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
      * @return a new Query instance for execution
      */
     public Sql<String> queryForString() {
-        return queryForOne(STRING_MAPPER);
+        return queryForOne(RowMapper.STRING_MAPPER);
     }
 
     /**
@@ -270,7 +200,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
      * @return a new Query instance for execution
      */
     public Sql<List<String>> queryForListOfString() {
-        return queryForList(STRING_MAPPER);
+        return queryForList(RowMapper.STRING_MAPPER);
     }
 
     /**
@@ -280,7 +210,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
      * @return a new Query instance for execution
      */
     public Sql<URL> queryForURL() {
-        return queryForOne(URL_MAPPER);
+        return queryForOne(RowMapper.URL_MAPPER);
     }
 
     /**
@@ -290,7 +220,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
      * @return a new Query instance for execution
      */
     public Sql<List<URL>> queryForListOfURL() {
-        return queryForList(URL_MAPPER);
+        return queryForList(RowMapper.URL_MAPPER);
     }
 
     /**
@@ -300,7 +230,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
      * @return a new Query instance for execution
      */
     public Sql<Double> queryForDouble() {
-        return queryForOne(DOUBLE_MAPPER);
+        return queryForOne(RowMapper.DOUBLE_MAPPER);
     }
 
     /**
@@ -310,7 +240,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
      * @return a new Query instance for execution
      */
     public Sql<List<Double>> queryForListOfDouble() {
-        return queryForList(DOUBLE_MAPPER);
+        return queryForList(RowMapper.DOUBLE_MAPPER);
     }
 
     /**
@@ -320,7 +250,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
      * @return a new Query instance for execution
      */
     public Sql<Float> queryForFloat() {
-        return queryForOne(FLOAT_MAPPER);
+        return queryForOne(RowMapper.FLOAT_MAPPER);
     }
 
     /**
@@ -330,7 +260,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
      * @return a new Query instance for execution
      */
     public Sql<List<Float>> queryForListOfFloat() {
-        return queryForList(FLOAT_MAPPER);
+        return queryForList(RowMapper.FLOAT_MAPPER);
     }
 
     /**
@@ -340,7 +270,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
      * @return a new Query instance for execution
      */
     public Sql<BigDecimal> queryForBigDecimal() {
-        return queryForOne(BIG_DECIMAL_MAPPER);
+        return queryForOne(RowMapper.BIG_DECIMAL_MAPPER);
     }
 
     /**
@@ -350,7 +280,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
      * @return a new Query instance for execution
      */
     public Sql<List<BigDecimal>> queryForListOfBigDecimal() {
-        return queryForList(BIG_DECIMAL_MAPPER);
+        return queryForList(RowMapper.BIG_DECIMAL_MAPPER);
     }
 
     /**
@@ -360,7 +290,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
      * @return a new Query instance for execution
      */
     public Sql<Boolean> queryForBoolean() {
-        return queryForOne(BOOLEAN_MAPPER);
+        return queryForOne(RowMapper.BOOLEAN_MAPPER);
     }
 
     /**
@@ -370,7 +300,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
      * @return a new Query instance for execution
      */
     public Sql<List<Boolean>> queryForListOfBoolean() {
-        return queryForList(BOOLEAN_MAPPER);
+        return queryForList(RowMapper.BOOLEAN_MAPPER);
     }
 
     /**
@@ -380,7 +310,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
      * @return a new Query instance for execution
      */
     public Sql<Long> queryForLong() {
-        return queryForOne(LONG_MAPPER);
+        return queryForOne(RowMapper.LONG_MAPPER);
     }
 
     /**
@@ -390,7 +320,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
      * @return a new Query instance for execution
      */
     public Sql<List<Long>> queryForListOfLong() {
-        return queryForList(LONG_MAPPER);
+        return queryForList(RowMapper.LONG_MAPPER);
     }
 
     /**
@@ -400,7 +330,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
      * @return a new Query instance for execution
      */
     public Sql<java.sql.Date> queryForDate() {
-        return queryForOne(DATE_MAPPER);
+        return queryForOne(RowMapper.DATE_MAPPER);
     }
 
     /**
@@ -410,7 +340,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
      * @return a new Query instance for execution
      */
     public Sql<List<java.sql.Date>> queryForListOfDate() {
-        return queryForList(DATE_MAPPER);
+        return queryForList(RowMapper.DATE_MAPPER);
     }
 
     /**
@@ -420,7 +350,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
      * @return a new Query instance for execution
      */
     public Sql<java.sql.Time> queryForTime() {
-        return queryForOne(TIME_MAPPER);
+        return queryForOne(RowMapper.TIME_MAPPER);
     }
 
     /**
@@ -430,7 +360,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
      * @return a new Query instance for execution
      */
     public Sql<List<java.sql.Time>> queryForListOfTime() {
-        return queryForList(TIME_MAPPER);
+        return queryForList(RowMapper.TIME_MAPPER);
     }
 
     /**
@@ -440,7 +370,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
      * @return a new Query instance for execution
      */
     public Sql<java.sql.Timestamp> queryForTimestamp() {
-        return queryForOne(TIMESTAMP_MAPPER);
+        return queryForOne(RowMapper.TIMESTAMP_MAPPER);
     }
 
     /**
@@ -450,7 +380,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
      * @return a new Query instance for execution
      */
     public Sql<List<java.sql.Timestamp>> queryForListOfTimestamp() {
-        return queryForList(TIMESTAMP_MAPPER);
+        return queryForList(RowMapper.TIMESTAMP_MAPPER);
     }
 
     /**
@@ -460,7 +390,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
      * @return a new Query instance for execution
      */
     public Sql<Object> queryForObject() {
-        return queryForOne(OBJECT_MAPPER);
+        return queryForOne(RowMapper.OBJECT_MAPPER);
     }
 
     /**
@@ -470,7 +400,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
      * @return a new Query instance for execution
      */
     public Sql<List<Object>> queryForListOfObject() {
-        return queryForList(OBJECT_MAPPER);
+        return queryForList(RowMapper.OBJECT_MAPPER);
     }
 
     /**
@@ -594,26 +524,6 @@ public sealed class SqlBuilder implements Sql<Integer> {
             }
             return updatedRows;
         }
-    }
-
-    /**
-     * RowMapper is an interface that defines how to map each row of a ResultSet
-     * to a Java object.
-     *
-     * @param <T> the type of object to map the result set to
-     */
-    public interface RowMapper<T> {
-
-
-
-        /**
-         * Maps a single row of the result set to an object.
-         *
-         * @param rs the result set obtained from executing the SQL query
-         * @return the mapped object
-         * @throws SQLException if an SQL error occurs during mapping
-         */
-        T get(ResultSet rs) throws SQLException;
     }
 
     /**
@@ -1171,6 +1081,12 @@ public sealed class SqlBuilder implements Sql<Integer> {
             /**
              * {@inheritDoc}
              */
+            public PreparedBatch param(final Integer value) {
+                return preparedParam(value);
+            }
+            /**
+             * {@inheritDoc}
+             */
             public PreparedBatch param(final Double value) {
                 return preparedParam(value);
             }
@@ -1242,31 +1158,6 @@ public sealed class SqlBuilder implements Sql<Integer> {
                 return this;
             }
         }
-        /**
-         * Functional interface representing a parameter mapper
-         * that binds parameters
-         * to a {@link PreparedStatement}. Implementations of this interface are
-         * responsible for mapping a specific parameter
-         * to the appropriate placeholder
-         * in the SQL query.
-         */
-        public interface ParamMapper {
-
-            /**
-             * Binds the provided parameters to the placeholders in the given
-             * {@link PreparedStatement}. This method is called to map and set
-             * parameter values for the SQL query.
-             *
-             * @param ps the {@link PreparedStatement}
-             *                          to bind parameters to
-             * @param index index of the parameter.
-             * @throws SQLException if a database access error occurs or if
-             *                      parameter binding fails
-             */
-            void set(PreparedStatement ps,
-                     int index) throws SQLException;
-        }
-
     }
 
     public static final class CallableSqlBuilder implements Sql<Boolean> {
@@ -1309,8 +1200,9 @@ public sealed class SqlBuilder implements Sql<Integer> {
              * @param value the Short value to be added
              * @return the current SqlBuilder instance, for method chaining
              */
-            public CallableSqlBuilder param(final Short value) {
-                return callableSqlBuilder.param(value);
+            public CallableSqlBuilderWrapper param(final Short value) {
+                callableSqlBuilder.param(value);
+                return this;
             }
 
             /**
@@ -1341,8 +1233,9 @@ public sealed class SqlBuilder implements Sql<Integer> {
              *
              * @return the current SqlBuilder instance, for method chaining
              */
-            public CallableSqlBuilder paramNull() {
-                return callableSqlBuilder.paramNull();
+            public CallableSqlBuilderWrapper paramNull() {
+                callableSqlBuilder.paramNull();
+                return this;
             }
 
             /**
@@ -1365,8 +1258,9 @@ public sealed class SqlBuilder implements Sql<Integer> {
              * @param value the value of the parameter to be added
              * @return the current SqlBuilder instance, for method chaining
              */
-            public CallableSqlBuilder param(final Float value) {
-                return callableSqlBuilder.param(value);
+            public CallableSqlBuilderWrapper param(final Float value) {
+                callableSqlBuilder.param(value);
+                return this;
             }
 
             /**
@@ -1376,8 +1270,9 @@ public sealed class SqlBuilder implements Sql<Integer> {
              * @param value the value of the parameter to be added
              * @return the current SqlBuilder instance, for method chaining
              */
-            public CallableSqlBuilder param(final Date value) {
-                return callableSqlBuilder.param(value);
+            public CallableSqlBuilderWrapper param(final Date value) {
+                callableSqlBuilder.param(value);
+                return this;
             }
 
             /**
@@ -1393,9 +1288,10 @@ public sealed class SqlBuilder implements Sql<Integer> {
              * used for SQL types that require specific type information
              * @return the current SqlBuilder instance, for method chaining
              */
-            public CallableSqlBuilder paramNull(final int sqlType,
+            public CallableSqlBuilderWrapper paramNull(final int sqlType,
                                                 final String typeName) {
-                return callableSqlBuilder.paramNull(sqlType, typeName);
+                callableSqlBuilder.paramNull(sqlType, typeName);
+                return this;
             }
 
             /**
@@ -1405,8 +1301,9 @@ public sealed class SqlBuilder implements Sql<Integer> {
              * @param value the value of the parameter to be added
              * @return the current SqlBuilder instance, for method chaining
              */
-            public CallableSqlBuilder param(final Integer value) {
-                return callableSqlBuilder.param(value);
+            public CallableSqlBuilderWrapper param(final Integer value) {
+                callableSqlBuilder.param(value);
+                return this;
             }
 
             /**
@@ -1416,8 +1313,9 @@ public sealed class SqlBuilder implements Sql<Integer> {
              * @param value the value of the parameter to be added
              * @return the current SqlBuilder instance, for method chaining
              */
-            public CallableSqlBuilder param(final BigDecimal value) {
-                return callableSqlBuilder.param(value);
+            public CallableSqlBuilderWrapper param(final BigDecimal value) {
+                callableSqlBuilder.param(value);
+                return this;
             }
 
             /**
@@ -1453,8 +1351,9 @@ public sealed class SqlBuilder implements Sql<Integer> {
              * @param value the value of the parameter to be added
              * @return the current SqlBuilder instance, for method chaining
              */
-            public CallableSqlBuilder param(final Long value) {
-                return callableSqlBuilder.param(value);
+            public CallableSqlBuilderWrapper param(final Long value) {
+                callableSqlBuilder.param(value);
+                return this;
             }
 
             /**
@@ -1464,8 +1363,9 @@ public sealed class SqlBuilder implements Sql<Integer> {
              * @param value the value of the parameter to be added
              * @return the current SqlBuilder instance, for method chaining
              */
-            public CallableSqlBuilder param(final Time value) {
-                return callableSqlBuilder.param(value);
+            public CallableSqlBuilderWrapper param(final Time value) {
+                callableSqlBuilder.param(value);
+                return this;
             }
 
             /**
@@ -1511,8 +1411,9 @@ public sealed class SqlBuilder implements Sql<Integer> {
              * @param value the value of the parameter to be added
              * @return the current SqlBuilder instance, for method chaining
              */
-            public CallableSqlBuilder param(final String value) {
-                return callableSqlBuilder.param(value);
+            public CallableSqlBuilderWrapper param(final String value) {
+                callableSqlBuilder.param(value);
+                return this;
             }
 
             /**
@@ -1561,8 +1462,9 @@ public sealed class SqlBuilder implements Sql<Integer> {
              * @param value the value of the parameter to be added
              * @return the current SqlBuilder instance, for method chaining
              */
-            public CallableSqlBuilder param(final Object value) {
-                return callableSqlBuilder.param(value);
+            public CallableSqlBuilderWrapper param(final Object value) {
+                callableSqlBuilder.param(value);
+                return this;
             }
 
             /**
@@ -1608,9 +1510,10 @@ public sealed class SqlBuilder implements Sql<Integer> {
              * @param targetSqlType the targeted SqlType.
              * @return the current SqlBuilder instance, for method chaining
              */
-            public CallableSqlBuilder param(final Object value,
-                                            final int targetSqlType) {
-                return callableSqlBuilder.param(value, targetSqlType);
+            public CallableSqlBuilderWrapper param(final Object value,
+                                                   final int targetSqlType) {
+                callableSqlBuilder.param(value, targetSqlType);
+                return this;
             }
 
             /**
@@ -1620,8 +1523,9 @@ public sealed class SqlBuilder implements Sql<Integer> {
              * @param value the value of the parameter to be added
              * @return the current SqlBuilder instance, for method chaining
              */
-            public CallableSqlBuilder param(final Double value) {
-                return callableSqlBuilder.param(value);
+            public CallableSqlBuilderWrapper param(final Double value) {
+                callableSqlBuilder.param(value);
+                return this;
             }
 
             /**
@@ -1631,8 +1535,9 @@ public sealed class SqlBuilder implements Sql<Integer> {
              * @param value the value of the parameter to be added
              * @return the current SqlBuilder instance, for method chaining
              */
-            public CallableSqlBuilder param(final byte[] value) {
-                return callableSqlBuilder.param(value);
+            public CallableSqlBuilderWrapper param(final byte[] value) {
+                callableSqlBuilder.param(value);
+                return this;
             }
 
             /**
@@ -1667,8 +1572,9 @@ public sealed class SqlBuilder implements Sql<Integer> {
              * @param value the value of the parameter to be added
              * @return the current SqlBuilder instance, for method chaining
              */
-            public CallableSqlBuilder param(final Boolean value) {
-                return callableSqlBuilder.param(value);
+            public CallableSqlBuilderWrapper param(final Boolean value) {
+                callableSqlBuilder.param(value);
+                return this;
             }
 
             /**
@@ -1678,8 +1584,9 @@ public sealed class SqlBuilder implements Sql<Integer> {
              * @param value the value of the parameter to be added
              * @return the current SqlBuilder instance, for method chaining
              */
-            public CallableSqlBuilder param(final Timestamp value) {
-                return callableSqlBuilder.param(value);
+            public CallableSqlBuilderWrapper param(final Timestamp value) {
+                callableSqlBuilder.param(value);
+                return this;
             }
         }
 
@@ -1734,7 +1641,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
          * @return ps
          */
         private PreparedStatement prepare(final PreparedStatement ps,
-                          final List<PreparedSqlBuilder.ParamMapper> pMappers)
+                          final List<ParamMapper> pMappers)
                 throws SQLException {
             for (int i = 0; i < pMappers.size(); i++) {
                 pMappers.get(i).set(ps, (i + 1));
@@ -2092,7 +1999,7 @@ public sealed class SqlBuilder implements Sql<Integer> {
          * @return sql
          * @param <T>
          */
-        public <T> Sql<T> queryOutParams(final StatementMapper<T> mapper) {
+        private <T> Sql<T> queryOutParams(final StatementMapper<T> mapper) {
             return connection -> {
                 T result;
                 try (CallableStatement ps = getStatement(connection,
@@ -2258,6 +2165,12 @@ public sealed class SqlBuilder implements Sql<Integer> {
             /**
              * {@inheritDoc}
              */
+            public CallableBatch param(final Integer value) {
+                return callableParam(value);
+            }
+            /**
+             * {@inheritDoc}
+             */
             public CallableBatch param(final Double value) {
                 return callableParam(value);
             }
@@ -2328,23 +2241,6 @@ public sealed class SqlBuilder implements Sql<Integer> {
                 this.preparedSqlBuilder.param(value, targetSqlType);
                 return this;
             }
-        }
-
-
-        /**
-         * StatementMapper is an interface that defines how to map statement
-         * to a Java object.
-         *
-         * @param <T> the type of object to map the result set to
-         */
-        @FunctionalInterface
-        public interface StatementMapper<T> {
-            /**
-             * Gets Value from Statement.
-             * @param statement
-             * @return result
-             */
-            T get(CallableStatement statement) throws SQLException;
         }
     }
 }

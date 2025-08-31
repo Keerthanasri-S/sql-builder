@@ -1,5 +1,9 @@
 package com.techatpark;
 
+import com.techatpark.sql.ParamMapper;
+import com.techatpark.sql.RowMapper;
+import com.techatpark.sql.Sql;
+import com.techatpark.sql.StatementMapper;
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.lang.ArchRule;
@@ -49,6 +53,9 @@ class CodeReviewTests {
                                 Throwable.class,
                                 BigDecimal.class,
                                 Sql.class,
+                                RowMapper.class,
+                                StatementMapper.class,
+                                ParamMapper.class,
                                 SqlBuilder.class,
                                 Boolean.class,
                                 Integer.class,
